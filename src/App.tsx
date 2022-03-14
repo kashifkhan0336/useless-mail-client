@@ -74,7 +74,7 @@ const App: React.FC<{}> = () => {
             placeholder="HTML Text"
           ></Field>
           <br />
-          <button type="submit">
+          <button type="submit" disabled={submitButtonState}>
             Send
           </button>
         </Form>
