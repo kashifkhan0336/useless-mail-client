@@ -2,6 +2,7 @@ export async function postData(
     url: string = "",
     data: object = {}
   ): Promise<{ status: string }> {
+    console.log(`PostDataFunc -> ${JSON.stringify(data)}`)
     const options: RequestInit = {
       method: "POST",
       mode: "cors",

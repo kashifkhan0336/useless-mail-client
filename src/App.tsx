@@ -2,8 +2,10 @@ import "./App.css";
 import { Form, Formik, Field, FormikHelpers } from "formik";
 import { FormValues } from "./interfaces/FormValues";
 import { postData } from "./api/postData";
+import { useState } from "react";
 
 const App: React.FC<{}> = () => {
+  const [submitButtonState, setSubmitButtonState] = useState<boolean>(false);
   const initialValues: FormValues = {
     email: "",
     subject: "",
@@ -19,19 +21,24 @@ const App: React.FC<{}> = () => {
           values: FormValues,
           actions: FormikHelpers<FormValues>
         ): void => {
+          setSubmitButtonState(true);
           console.log({ values, actions });
           alert(JSON.stringify(values, null, 2));
-          postData(import.meta.env.VITE_REACT_APP_API_URL as string, {
-            sender_name: values.sender_name,
-            receiver_name: values.receiver_name,
-            sender_email: import.meta.env.VITE_REACT_APP_EMAIL,
-            receiver_email: values.email,
-            subject: values.subject,
-            text: "",
-            html_text: values.html_text,
-          }).then((data: object) => {
+          postData(
+            import.meta.env.VITE_REACT_APP_API_URL as string,
+            {
+              sender_name: values.sender_name,
+              receiver_name: values.receiver_name,
+              sender_email: import.meta.env.VITE_REACT_APP_EMAIL,
+              receiver_email: values.email,
+              subject: values.subject,
+              text: "",
+              html_text: values.html_text,
+            } as object
+          ).then((data: object) => {
             console.log(data);
             alert(JSON.stringify(data, null, 2));
+            setSubmitButtonState(false);
           });
           actions.setSubmitting(false);
         }}
@@ -67,7 +74,9 @@ const App: React.FC<{}> = () => {
             placeholder="HTML Text"
           ></Field>
           <br />
-          <button type="submit">Send</button>
+          <button type="submit">
+            Send
+          </button>
         </Form>
       </Formik>
     </div>
